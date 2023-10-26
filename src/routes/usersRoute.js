@@ -1,10 +1,9 @@
-import {Router} from 'express';
+import { Router } from 'express';
 
-
-import { getUsers } from '../controllers/userController';
-import { createUser } from '../controllers/userController.js';
-import { updateUser } from '../controllers/userController.js';
-import { deleteUser } from '../controllers/userController.js';
+import { getUsers } from '../controllers/userControllers.js';
+import { createUser } from '../controllers/userControllers.js';
+import { updateUser } from '../controllers/userControllers.js';
+import { deleteUser } from '../controllers/userControllers.js';
 
 const router = Router();
 router.post('/', createUser);
