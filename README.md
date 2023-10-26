@@ -1,4 +1,4 @@
-# Proyecto 1 BackEnd Universidad del Norte
+# Project 1 BackEnd Universidad del Norte
 ### Description
 Develop the backend for a delivery service using JavaScript, Node, Express and MongoDB.
 <br>
