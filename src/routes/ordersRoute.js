@@ -1,13 +1,19 @@
-import {Router} from 'express';
-import {createOrder, getOrderbyId, getOrderbyFilter,getAllProducts, getNotAccepted, updateOrder, deleteOrder} from '../controllers/ordersController';
+import { Router } from 'express';
+import {
+  createProduct,
+  getProductbyId,
+  getProductbyRestaurantID,
+  getAllProducts,
+  updateProduct,
+  deleteProduct
+} from '../controllers/productsController.js';
 
 const router = Router();
-router.post('/', createOrder);
-router.get('/_id', getOrderbyId);
+router.post('/', createProduct);
+router.get('/_id', getProductbyId);
+router.get('/', getProductbyRestaurantID);
 router.get('/products', getAllProducts);
-router.get('/orders', getOrderbyFilter);
-router.get('/notAccepted', getNotAccepted);
-router.patch('/:_id', updateOrder);
-router.delete('/:_id', deleteOrder);
+router.patch('/:_id', updateProduct);
+router.delete('/:_id', deleteProduct);
 
-export default router;
+export default router; // Export the router using ES module syntax

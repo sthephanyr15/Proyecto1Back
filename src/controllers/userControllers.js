@@ -1,6 +1,6 @@
 import User from '../models/userSchema.js';
 
-const createUser = async (req, res) => {
+export const createUser = async (req, res) => {
     const {username, first_name, last_name, email, password, phone, address, role, restaurants, isDeleted} = req.body;
     const newUser = new user({username, first_name, last_name, email, password, phone, address, role, restaurants, isDeleted});
     try{
@@ -11,7 +11,7 @@ const createUser = async (req, res) => {
     }
 }
 
-const getUsers = async (req, res) => {
+export const getUsers = async (req, res) => {
     try{
         const{email, password, username} = req.body;
         let user;
@@ -33,7 +33,7 @@ const getUsers = async (req, res) => {
     }
 }
 
-const updateUser = async (req, res) => {
+export const updateUser = async (req, res) => {
     const{username}=req.params;
     const{first_name, last_name, email, password, phone, address, role, restaurants} = req.body; 
     try{
@@ -59,7 +59,7 @@ const updateUser = async (req, res) => {
     }
 }
 
-const deleteUser = async (req, res) => {
+export const deleteUser = async (req, res) => {
  try{
     const{username}=req.params;
     const user=await User.findOneAndUpdate( username, {isDeleted:true});
@@ -68,5 +68,3 @@ const deleteUser = async (req, res) => {
  }
  res.send({message:"User deleted successfully"});
 }
-
-export {createUser, getUsers, updateUser, deleteUser};

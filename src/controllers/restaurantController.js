@@ -1,7 +1,7 @@
 import Restaurant from '../schemas/restaurantsSchema.js';
 import mongoose from 'mongoose';    
 
-const createRestaurant = async (req, res) => {
+export const createRestaurant = async (req, res) => {
     const {name, address, phone, products}= req.body;
     try{
         const restaurant= new Restaurant({ idAdmin: req.userID ,name, address, phone, products, idAdmin: req.userID});
@@ -12,7 +12,7 @@ const createRestaurant = async (req, res) => {
     }
 };
 
-const getRestaurant = async (req, res) => { 
+export const getRestaurant = async (req, res) => { 
     try{
         const{restaurantID} = req.query;
         const query={isDeleted:false};
@@ -24,7 +24,7 @@ const getRestaurant = async (req, res) => {
     }   
 };      
 
-const getAllRestaurants = async (req, res) => {
+export const getAllRestaurants = async (req, res) => {
     try{
         const restaurant=await Restaurant.find({isDeleted: false});
         res.status(200).json(restaurant);
@@ -33,7 +33,7 @@ const getAllRestaurants = async (req, res) => {
     }
 };
 
-const updateRestaurant = async (req, res) => {
+export const updateRestaurant = async (req, res) => {
     const {restaurantID}= req.params;
     const { name, address, phone, products}= req.body;
     try{
@@ -53,7 +53,7 @@ const updateRestaurant = async (req, res) => {
     }
 }
 
-const deleteRestaurant = async (req, res) => {
+export const deleteRestaurant = async (req, res) => {
     const {restaurantID}= req.params;
     try{
         restaurant.findByIdAndUpdate({restaurantID: restaurantID});
@@ -69,4 +69,5 @@ const deleteRestaurant = async (req, res) => {
     }
 };
 
-export {createRestaurant, getRestaurant, getAllRestaurants, updateRestaurant, deleteRestaurant};
+// export {createRestaurant, getRestaurant, getAllRestaurants, updateRestaurant, deleteRestaurant};
+

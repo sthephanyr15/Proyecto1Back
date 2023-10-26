@@ -2,7 +2,7 @@ import Product from '../models/productModel.js';
 import Restaurant from '../models/restaurantModel.js';
 import mongoose from 'mongoose';
 
-const createProduct = async (req, res) => {
+export const createProduct = async (req, res) => {
     try{
         const{restaurantID, name, description, category, availableQuantity, price}= req.body;
         if(!mongoose.Types.ObjectId.isValid(restaurantID)){
@@ -37,7 +37,7 @@ const createProduct = async (req, res) => {
         return res.status(500).json({message: error.message});
     }
 };
-const getAllProducts = async (req, res) => {
+export const getAllProducts = async (req, res) => {
     const {restaurantID} = req.query;
     const query= {isDeleted: false};
     if(restaurantID) query.restaurantID= restaurantID;
@@ -48,7 +48,7 @@ const getAllProducts = async (req, res) => {
 }
 res.status(200).json(Product);
 }
-const getProductById = async (req, res) => {
+export const getProductById = async (req, res) => {
     const {productID} = req.params;
     try{
         const product= await Product.findById(productID);
@@ -58,7 +58,7 @@ const getProductById = async (req, res) => {
     res.status(200).json(Product);
 }
 
-const updateProduct = async (req, res) => {
+export const updateProduct = async (req, res) => {
     const {productID} = req.params;
     const {name, description, category, availableQuantity, price, status}= req.body;
     const productStatus= availableQuantity > 0 ? 'available' : 'unavailable';
@@ -94,7 +94,7 @@ const updateProduct = async (req, res) => {
 }
 };
 
-const deleteProduct = async (req, res) => {
+ export const deleteProduct = async (req, res) => {
     const { productID } = req.params;
     try {
         Product.findByIdAndUpdate({ productID: productID, isDeleted: true });
@@ -113,5 +113,3 @@ const deleteProduct = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
-export {createProduct, getProductById,getAllProducts, updateProduct, deleteProduct}

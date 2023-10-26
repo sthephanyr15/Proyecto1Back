@@ -1,7 +1,13 @@
 import {Router} from 'express';
-import {createProduct, getProductbyId, getProductbyRestaurantID, getAllProducts, updateProduct, deleteProduct} from '../controllers/productsController';
 
-const router = Router();
+
+import { createProduct } from '../controllers/productsController.js';
+import { getProductbyId } from '../controllers/productsController.js';
+import { getProductbyRestaurantID } from '../controllers/productsController.js';
+import { getAllProducts } from '../controllers/productsController.js';
+import { updateProduct } from '../controllers/productsController.js';
+import { deleteProduct } from '../controllers/productsController.js';
+
 router.post('/', createProduct);
 router.get('/_id', getProductbyId);
 router.get('/', getProductbyRestaurantID);

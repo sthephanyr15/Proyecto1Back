@@ -2,7 +2,7 @@ import Order from '../schemas/ordersSchema.js';
 import Restaurant from '../schemas/restaurantsSchema.js';
 import mongoose from 'mongoose';    
 
-const createDelivery = async (req, res) => {
+export const createDelivery = async (req, res) => {
     const {restaurantID, total, products}= req.body;
         const order= new Order({
             restaurantID,
@@ -18,7 +18,7 @@ const createDelivery = async (req, res) => {
         : res.status(404).json({message: "Order not found"});
 };
 
-const getOrderId = async (req, res) => {
+export const getOrderId = async (req, res) => {
     const {orderID} = req.params;
     try{
         const order = await order.findById(orderID);
@@ -32,7 +32,7 @@ const getOrderId = async (req, res) => {
     }
 };
 
-const getOrderUser = async (req, res) => { 
+export const getOrderUser = async (req, res) => { 
     const {username} = req.params;
     try{
         const order = await order.find({username: username});
@@ -46,7 +46,7 @@ const getOrderUser = async (req, res) => {
     }
 };
 
-const getSentOrders = async (req, res) => {
+export const getSentOrders = async (req, res) => {
     try{
         const delivery=await Order.find({status: 'sent'}, {isDeleted: false});
         res.status(200).json(delivery);
@@ -55,7 +55,7 @@ const getSentOrders = async (req, res) => {
     }
 };
 
-const getAllOrders = async (req, res) => {
+export const getAllOrders = async (req, res) => {
     try{
         const delivery=await Order.find();
         res.status(200).json(delivery);
@@ -64,7 +64,7 @@ const getAllOrders = async (req, res) => {
     }
 };
 
-const updateOrder = async (req, res) => {
+export const updateOrder = async (req, res) => {
     const {orderID} = req.params;
     const {username, deliveryUser,restaurantID, products, status} = req.body;
     try{
@@ -90,7 +90,7 @@ const updateOrder = async (req, res) => {
     }
 };
 
-const deleteOrder = async (req, res) => {
+export const deleteOrder = async (req, res) => {
     const {orderID} = req.params;
     try{
         Order.findById(orderID, {isDeleted: true});
@@ -99,5 +99,3 @@ const deleteOrder = async (req, res) => {
     }
     res.status(200).json({message: "Order deleted successfully"});
 };
-
-export {createDelivery, getOrderId, getOrderUser, getSentOrders, getAllOrders, updateOrder, deleteOrder};
