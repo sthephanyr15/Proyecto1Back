@@ -10,7 +10,9 @@ export const createRestaurant = async (req, res) => {
       phone,
       products,
       idAdmin: req.userID,
+      popularity: 0,
     });
+    restaurant.popularity+=calculateOrders();
     await restaurant.save();
     return res.status(201).json({ message: 'Restaurant created successfully' });
   } catch {
@@ -83,3 +85,23 @@ export const deleteRestaurant = async (req, res) => {
   }
 };
 
+export const calculateOrders = async (req, res) => {
+  try{
+    const orderCount = await Order.countDocuments({restaurantID:restaurantID});
+    return orderCount;
+  }catch(error){
+    return res.status(500).json({ message: error.message });
+    return 0;
+  }
+}
+
+export const getPopularRestaurants = async (req, res) => {
+  try {
+    const restaurants = await Restaurant.find({ isDeleted: false }).sort({
+      popularity: -1,
+    });
+    res.status(200).json(restaurants);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}

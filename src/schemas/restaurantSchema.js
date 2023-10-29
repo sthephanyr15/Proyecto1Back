@@ -13,7 +13,7 @@ const restaurantSchema = new mongoose.Schema({
    },
     phone:{type:String, required:true},
     categories:[{type:String, required:true}],
-    raiting:{type:Number, required:true},
+    popularity:{type:Number, required:true,default:0},
     products:{type:[String],default:[]},
     isDeleted:{type:Boolean, default:false}
 });
