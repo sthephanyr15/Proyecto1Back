@@ -45,16 +45,23 @@ export const createProduct = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
-export const getAllProducts = async (req, res) => {
-  const { restaurantID } = req.query;
-  const query = { isDeleted: false };
-  if (restaurantID) query.restaurantID = restaurantID;
-  try {
-    const products = await Product.find(query);
-  } catch (error) {
+export const getProductByRestaurantCategory = async (req, res) => {
+  try{
+    const { restaurantID, category} = req.query;
+    if (!mongoose.Types.ObjectId.isValid(restaurantID)) {
+      return res.status(404).json({ message: 'Restaurant not found' });
+    }
+    const filter={};
+    if(restaurantID) filter.restaurantID=restaurantID;
+    if(category) filter.category=category;
+    const products = await Product.find(filter);
+    if (!products) {
+      return res.status(404).json({ message: 'Products not found' });
+    }
+    res.status(200).json(products);
+  }catch(error){
     res.status(500).json({ message: error.message });
   }
-  res.status(200).json(Product);
 };
 export const getProductById = async (req, res) => {
   const { productID } = req.params;

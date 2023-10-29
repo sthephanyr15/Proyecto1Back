@@ -57,34 +57,27 @@ export const getUsers = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
-  const { username } = req.params;
-  const {
-    first_name,
-    last_name,
-    email,
-    password,
-    phone,
-    address,
-    role,
-    restaurants,
-  } = req.body;
   try {
-    const updateUser = await User.findOneUpdate(
-      { username: username, isDeleted: false },
-      {
-        $set: {
-          first_name,
-          second_name,
-          email,
-          password,
-          phone,
-          address,
-          role,
-          ...(restaurants && { restaurants }),
-        },
-      },
-      { new: true }
-    );
+    const userId = req.params.id;
+    const updatedData={
+      username,
+      first_name,
+      last_name,
+      email,
+      password,
+      phone,
+      address,
+      role,
+      restaurants,
+      isDeleted,
+    }
+    const updateUser= await user.findOneAndUpdate(userId);
+    if (!updateUser) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+    Object.assign(updateUser, updatedData);
+    await updateUser.save();
     res.status(200).json(updateUser);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -93,9 +86,9 @@ export const updateUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
-    const { username } = req.params;
-    console.log("username", username);
-    const user = await User.findOneAndUpdate({ username }, { isDeleted: true });
+    const userId = req.params.id;
+    console.log("id", userId);
+    const user = await User.findOneAndUpdate({ userId }, { isDeleted: true });
     if (!user) {
       res.status(404).json({ message: 'User not found' });
       return;

@@ -1,6 +1,4 @@
-import Order from '../schemas/ordersSchema.js';
-import Restaurant from '../schemas/restaurantsSchema.js';
-import mongoose from 'mongoose';    
+import Order from '../schemas/ordersSchema.js'; 
 
 export const createDelivery = async (req, res) => {
     const {restaurantID, total, products}= req.body;
@@ -34,13 +32,15 @@ export const getOrderId = async (req, res) => {
 
 export const getOrderUser = async (req, res) => { 
     const {username} = req.params;
+    const {restaurantID, initialDate, finalDate} = req.body;
+    const iDate = new Date(initialDate);
+    const fDate = new Date(finalDate);
     try{
-        const order = await order.find({username: username});
+        const order = await order.find({username: username, restaurantID: restaurantID, createdAt: {$gte: iDate, $lte: fDate},status:{$in:['sent','accepted']}, isDeleted: false}).exec();
         if(!order){
             return res.status(404).json({message: "Order not found"});
-        }else{
-            return res.status(200).json(order);
         }
+        return res.status(200).json(order);
     }catch(error){
         return res.status(500).json({message: error.message});
     }
@@ -49,15 +49,6 @@ export const getOrderUser = async (req, res) => {
 export const getSentOrders = async (req, res) => {
     try{
         const delivery=await Order.find({status: 'sent'}, {isDeleted: false});
-        res.status(200).json(delivery);
-    }catch(error){
-        res.status(500).json({message: error.message});
-    }
-};
-
-export const getAllOrders = async (req, res) => {
-    try{
-        const delivery=await Order.find();
         res.status(200).json(delivery);
     }catch(error){
         res.status(500).json({message: error.message});

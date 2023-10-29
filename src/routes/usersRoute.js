@@ -8,7 +8,7 @@ import { deleteUser } from '../controllers/userControllers.js';
 const router = Router();
 router.post('/', createUser);
 router.get('/', getUsers);
-router.patch('/:username', updateUser);
-router.delete('/:username', deleteUser);
+router.patch('/:id', updateUser);
+router.delete('/:id', deleteUser);
 
 export default router;
